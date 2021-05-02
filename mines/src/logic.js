@@ -1,5 +1,3 @@
-import field from "./components/field"
-
 const createBoard = (rows, columns) => {
         return Array(rows).fill(0).map((_, row) =>{
             return Array(columns).fill(0).map((_, column) => {
@@ -94,6 +92,12 @@ const wonGame = board => fields(board).filter(pendding).length === 0
 
 const showMines = board => fields(board).filter(field => field.mined).forEach(field => field.opened = true)
 
+const invertFlag = (board, row, column) => {
+    const field = board[row][column]
+    field.flagged = !field.flagged
+}
+
+const flagUsed = board => fields(board).filter(field => field.flagged).length
 
 
 
@@ -104,6 +108,8 @@ export {
         openField,
         hasExplosion,
         wonGame,
-        showMines
-
+        showMines,
+        invertFlag,
+        flagUsed 
+        
     }
