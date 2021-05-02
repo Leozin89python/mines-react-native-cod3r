@@ -8,6 +8,7 @@ import {
 import Params from './src/params'
 import MineField from './src/components/mineField'
 import Header from './src/components/header'
+import LevelSelected from './src/screens/levelSelecyion'
 import  {
   createdMineBoard,
   cloneBoard,
@@ -40,7 +41,8 @@ export default class App extends Component{
     return {
       board: createdMineBoard(rows, cols, this.minesAmount()),
       won: false,
-      lost: false
+      lost: false,
+      showLevelSelection: false,
     }
   }
 
@@ -75,6 +77,11 @@ export default class App extends Component{
     this.setState({ board, won })
   }
 
+  onLevelSelected = level => {
+      Params.dificultLevel = level
+      this.setState(this.createState())
+  }
+
 
   render(){
     return(
@@ -85,8 +92,12 @@ export default class App extends Component{
               {Params.getRowsAmount()}x{Params.getColumnsAmount()}
             </Text>
           */}
+            <LevelSelected isVisible={this.state.showLevelSelection}
+                           onLevelSelected={this.onLevelSelected}
+                           onCancel={() => this.setState({ showLevelSelection: false })}/>
             <Header flagLeft={this.minesAmount() - flagUsed(this.state.board)}
-              onNewGame={() => this.setState(this.createState())}/>
+              onNewGame={() => this.setState(this.createState())}
+              onFlagPress={() => this.setState({ showLevelSelection: true })}/>
             <View style={styles.board}>
                 <MineField board={this.state.board}
                            onOpenField={this.onOpenField}
